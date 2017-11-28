@@ -10,7 +10,7 @@
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2014.1
+set scripts_vivado_version 2017.3
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -150,7 +150,7 @@ proc create_hier_cell_zed_hdmi_display { parentCell nameHier } {
   set_property -dict [ list CONFIG.NUM_MI {1}  ] $axi_mem_intercon
 
   # Create instance: axi_vdma_0, and set properties
-  set axi_vdma_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_vdma:6.2 axi_vdma_0 ]
+  set axi_vdma_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_vdma:6.3 axi_vdma_0 ]
   set_property -dict [ list CONFIG.c_enable_debug_info_6 {0} CONFIG.c_enable_debug_info_7 {0} CONFIG.c_enable_debug_info_14 {0} CONFIG.c_enable_debug_info_15 {0} CONFIG.c_include_mm2s_dre {1} CONFIG.c_include_s2mm {0} CONFIG.c_mm2s_genlock_mode {0} CONFIG.c_mm2s_linebuffer_depth {4096}  ] $axi_vdma_0
 
   # Create instance: axis_subset_converter_0, and set properties
@@ -158,7 +158,7 @@ proc create_hier_cell_zed_hdmi_display { parentCell nameHier } {
   set_property -dict [ list CONFIG.M_HAS_TKEEP {1} CONFIG.M_HAS_TLAST {1} CONFIG.M_TDATA_NUM_BYTES {3} CONFIG.M_TUSER_WIDTH {1} CONFIG.S_HAS_TKEEP {1} CONFIG.S_HAS_TLAST {1} CONFIG.S_TDATA_NUM_BYTES {4} CONFIG.S_TUSER_WIDTH {1} CONFIG.TDATA_REMAP {tdata[23:0]} CONFIG.TUSER_REMAP {tuser[0:0]}  ] $axis_subset_converter_0
 
   # Create instance: gnd, and set properties
-  set gnd [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.0 gnd ]
+  set gnd [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 gnd ]
   set_property -dict [ list CONFIG.CONST_VAL {0}  ] $gnd
 
   # Create instance: proc_sys_reset, and set properties
@@ -166,7 +166,7 @@ proc create_hier_cell_zed_hdmi_display { parentCell nameHier } {
   set_property -dict [ list CONFIG.C_AUX_RESET_HIGH {0}  ] $proc_sys_reset
 
   # Create instance: v_axi4s_vid_out_0, and set properties
-  set v_axi4s_vid_out_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_axi4s_vid_out:3.0 v_axi4s_vid_out_0 ]
+  set v_axi4s_vid_out_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_axi4s_vid_out:4.0 v_axi4s_vid_out_0 ]
   set_property -dict [ list CONFIG.C_S_AXIS_VIDEO_FORMAT {0} CONFIG.VTG_MASTER_SLAVE {1}  ] $v_axi4s_vid_out_0
 
   # Create instance: v_cresample_0, and set properties
@@ -181,7 +181,7 @@ proc create_hier_cell_zed_hdmi_display { parentCell nameHier } {
   set_property -dict [ list CONFIG.VIDEO_MODE {1080p} CONFIG.enable_detection {false}  ] $v_tc_0
 
   # Create instance: vcc, and set properties
-  set vcc [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.0 vcc ]
+  set vcc [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 vcc ]
 
   # Create instance: zed_hdmi_out_0, and set properties
   set zed_hdmi_out_0 [ create_bd_cell -type ip -vlnv avnet:zedboard:zed_hdmi_out:2.0 zed_hdmi_out_0 ]
@@ -210,7 +210,7 @@ proc create_hier_cell_zed_hdmi_display { parentCell nameHier } {
   connect_bd_net -net s_axi_aresetn_1 [get_bd_pins axi4lite_aresetn] [get_bd_pins v_tc_0/s_axi_aresetn]
   connect_bd_net -net v_axi4s_vid_out_0_vtg_ce [get_bd_pins v_axi4s_vid_out_0/vtg_ce] [get_bd_pins v_tc_0/gen_clken]
   connect_bd_net -net vcc_const [get_bd_pins axi_vdma_0/axi_resetn] [get_bd_pins axis_subset_converter_0/aresetn] [get_bd_pins v_axi4s_vid_out_0/aclken] [get_bd_pins v_axi4s_vid_out_0/aresetn] [get_bd_pins v_axi4s_vid_out_0/vid_io_out_ce] [get_bd_pins v_cresample_0/aclken] [get_bd_pins v_cresample_0/aresetn] [get_bd_pins v_rgb2ycrcb_0/aclken] [get_bd_pins v_rgb2ycrcb_0/aresetn] [get_bd_pins v_tc_0/clken] [get_bd_pins v_tc_0/resetn] [get_bd_pins v_tc_0/s_axi_aclken] [get_bd_pins vcc/const]
-  
+
   # Restore current instance
   current_bd_instance $oldCurInst
 }
@@ -254,11 +254,11 @@ proc create_root_design { parentCell } {
   # Create ports
 
   # Create instance: clk_wiz_0, and set properties
-  set clk_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:5.1 clk_wiz_0 ]
+  set clk_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:5.4 clk_wiz_0 ]
   set_property -dict [ list CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {148.500} CONFIG.USE_LOCKED {false} CONFIG.USE_RESET {false}  ] $clk_wiz_0
 
   # Create instance: processing_system7_0, and set properties
-  set processing_system7_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.4 processing_system7_0 ]
+  set processing_system7_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 processing_system7_0 ]
   set_property -dict [ list CONFIG.PCW_EN_CLK1_PORT {1} CONFIG.PCW_EN_CLK2_PORT {1} CONFIG.PCW_EN_RST1_PORT {1} CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ {75.000000} CONFIG.PCW_FPGA2_PERIPHERAL_FREQMHZ {100.000000} CONFIG.PCW_USE_S_AXI_HP0 {1} CONFIG.preset {ZedBoard*}  ] $processing_system7_0
 
   # Create instance: processing_system7_0_axi_periph, and set properties
@@ -300,7 +300,7 @@ proc create_root_design { parentCell } {
   create_bd_addr_seg -range 0x10000 -offset 0x43C00000 [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs zed_hdmi_display/v_tc_0/ctrl/Reg] SEG_v_tc_0_Reg
   create_bd_addr_seg -range 0x10000 -offset 0x41600000 [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs zed_hdmi_iic_0/S_AXI/Reg] SEG_zed_hdmi_iic_0_Reg
   create_bd_addr_seg -range 0x20000000 -offset 0x0 [get_bd_addr_spaces zed_hdmi_display/axi_vdma_0/Data_MM2S] [get_bd_addr_segs processing_system7_0/S_AXI_HP0/HP0_DDR_LOWOCM] SEG_processing_system7_0_HP0_DDR_LOWOCM
-  
+
 
   # Restore current instance
   current_bd_instance $oldCurInst
@@ -315,5 +315,4 @@ proc create_root_design { parentCell } {
 ##################################################################
 
 create_root_design ""
-
 

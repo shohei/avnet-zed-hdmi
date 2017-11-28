@@ -56,7 +56,7 @@ proc create_hier_cell_zed_hdmi_display { parentCell nameHier } {
   set_property -dict [ list CONFIG.M_HAS_TKEEP {1} CONFIG.M_HAS_TLAST {1} CONFIG.M_TDATA_NUM_BYTES {3} CONFIG.M_TUSER_WIDTH {1} CONFIG.S_HAS_TKEEP {1} CONFIG.S_HAS_TLAST {1} CONFIG.S_TDATA_NUM_BYTES {4} CONFIG.S_TUSER_WIDTH {1} CONFIG.TDATA_REMAP {tdata[23:0]} CONFIG.TUSER_REMAP {tuser[0:0]}  ] $axis_subset_converter_0
 
   # Create instance: gnd, and set properties
-  set gnd [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.0 gnd ]
+  set gnd [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 gnd ]
   set_property -dict [ list CONFIG.CONST_VAL {0}  ] $gnd
 
   # Create instance: proc_sys_reset, and set properties
@@ -79,7 +79,7 @@ proc create_hier_cell_zed_hdmi_display { parentCell nameHier } {
   set_property -dict [ list CONFIG.VIDEO_MODE {1080p} CONFIG.enable_detection {false}  ] $v_tc_0
 
   # Create instance: vcc, and set properties
-  set vcc [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.0 vcc ]
+  set vcc [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 vcc ]
 
   # Create instance: zed_hdmi_out_0, and set properties
   set zed_hdmi_out_0 [ create_bd_cell -type ip -vlnv avnet:zedboard:zed_hdmi_out:2.0 zed_hdmi_out_0 ]
@@ -108,7 +108,7 @@ proc create_hier_cell_zed_hdmi_display { parentCell nameHier } {
   connect_bd_net -net s_axi_aresetn_1 [get_bd_pins axi4lite_aresetn] [get_bd_pins v_tc_0/s_axi_aresetn]
   connect_bd_net -net v_axi4s_vid_out_0_vtg_ce [get_bd_pins v_axi4s_vid_out_0/vtg_ce] [get_bd_pins v_tc_0/gen_clken]
   connect_bd_net -net vcc_const [get_bd_pins axi_vdma_0/axi_resetn] [get_bd_pins axis_subset_converter_0/aresetn] [get_bd_pins v_axi4s_vid_out_0/aclken] [get_bd_pins v_axi4s_vid_out_0/aresetn] [get_bd_pins v_axi4s_vid_out_0/vid_io_out_ce] [get_bd_pins v_cresample_0/aclken] [get_bd_pins v_cresample_0/aresetn] [get_bd_pins v_rgb2ycrcb_0/aclken] [get_bd_pins v_rgb2ycrcb_0/aresetn] [get_bd_pins v_tc_0/clken] [get_bd_pins v_tc_0/resetn] [get_bd_pins v_tc_0/s_axi_aclken] [get_bd_pins vcc/const]
-  
+
   # Restore current instance
   current_bd_instance $oldCurInst
 }
